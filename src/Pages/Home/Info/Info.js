@@ -21,7 +21,7 @@ const Info = () => {
     bgClass: "bg-gradient-to-r from-secondary to-primary",
   };
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 my-10 px-12">
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 my-10">
       <InfoCards infoCard={info1} img={clock}></InfoCards>
       <InfoCards infoCard={info2} img={marker}></InfoCards>
       <InfoCards infoCard={info3} img={phone}></InfoCards>

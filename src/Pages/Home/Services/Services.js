@@ -5,30 +5,37 @@ import whitening from "../../../assets/images/whitening.png";
 import treatment from "../../../assets/images/treatment.png";
 import Service from "./Service/Service";
 
-const OurServices = () => {
-  const service1 = {
-    serviceTitle: "Fluoride Treatment",
-    serviceDetails:
-      "Lorem Ipsum is simply dummy printing and typesetting indust Ipsum has been the",
-  };
-  const service2 = {
-    serviceTitle: "Cavity Filling",
-    serviceDetails:
-      "Lorem Ipsum is simply dummy printing and typesetting indust Ipsum has been the",
-  };
-  const service3 = {
-    serviceTitle: "Teeth Whitening",
-    serviceDetails:
-      "Lorem Ipsum is simply dummy printing and typesetting indust Ipsum has been the",
-  };
+const Services = () => {
+  const services = [
+    {
+      _id: 1,
+      img: fluoride,
+      name: "Fluoride Treatment",
+      details: "",
+    },
+    {
+      _id: 2,
+      img: cavity,
+      name: "Cavity Filling",
+      details: "",
+    },
+    {
+      _id: 3,
+      img: whitening,
+      name: "Teeth Whitening",
+      details: "",
+    },
+  ];
   return (
-    <div className="mt-52 my-10 px-12">
-      <h1 className="text-center text-secondary">OUR SERVICES</h1>
-      <h2 className="text-center text-3xl">Services We Provide</h2>
+    <div className=" my-28">
+      <div className="text-center font-bold text-xl">
+        <h1 className="text-secondary">OUR SERVICES</h1>
+        <h2 className="text-4xl text-black">Services We Provide</h2>
+      </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        <Service img={fluoride} serviceInfo={service1}></Service>
-        <Service img={cavity} serviceInfo={service2}></Service>
-        <Service img={whitening} serviceInfo={service3}></Service>
+        {services.map((service) => (
+          <Service key={service._id} service={service}></Service>
+        ))}
       </div>
       <div class="hero min-h-screen ">
         <div class="hero-content flex-col lg:flex-row">
@@ -55,4 +62,4 @@ const OurServices = () => {
   );
 };
 
-export default OurServices;
+export default Services;
