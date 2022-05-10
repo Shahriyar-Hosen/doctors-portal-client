@@ -25,8 +25,8 @@ const Navbar = () => {
     </>
   );
   return (
-    <div class="navbar bg-base-100">
-      <div class="navbar-start lg:ml-20">
+    <div class="navbar bg-base-100 lg:px-12">
+      <div class="navbar-start ">
         <div class="dropdown">
           <label tabindex="0" class="btn btn-ghost lg:hidden">
             <svg
@@ -55,7 +55,7 @@ const Navbar = () => {
           Doctors Portal
         </Link>
       </div>
-      <div class="navbar-center hidden lg:flex navbar-end mr-20">
+      <div class="navbar-center hidden lg:flex navbar-end">
         <ul class="menu menu-horizontal p-0">{menuItems}</ul>
       </div>
     </div>
