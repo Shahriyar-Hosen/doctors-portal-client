@@ -7,8 +7,8 @@ const InfoCards = ({ infoCard, img }) => {
       <figure>
         <img className="p-0 lg:pl-5" src={img} alt="Album" />
       </figure>
-      <div class="card-body">
-        <h2 class="card-title">{heading}</h2>
+      <div className="card-body">
+        <h2 className="card-title">{heading}</h2>
         <p>{paragraph}</p>
       </div>
     </div>
