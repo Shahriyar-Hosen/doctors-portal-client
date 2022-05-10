@@ -1,6 +1,6 @@
 import "./App.css";
 
-function App() {
+function App() { 
   return (
     <div>
       <h1>Doctors Portal</h1>
