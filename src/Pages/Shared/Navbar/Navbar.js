@@ -8,9 +8,6 @@ const Navbar = () => {
         <Link to="/home">Home</Link>
       </li>
       <li>
-        <Link to="/about">About</Link>
-      </li>
-      <li>
         <Link to="/appointment">Appointment</Link>
       </li>
       <li>
@@ -20,13 +17,16 @@ const Navbar = () => {
         <Link to="/contact">Contact Us</Link>
       </li>
       <li>
+        <Link to="/about">About</Link>
+      </li>
+      <li>
         <Link to="/login">Login</Link>
       </li>
     </>
   );
   return (
     <div class="navbar bg-base-100">
-      <div class="navbar-start ml-20">
+      <div class="navbar-start lg:ml-20">
         <div class="dropdown">
           <label tabindex="0" class="btn btn-ghost lg:hidden">
             <svg
