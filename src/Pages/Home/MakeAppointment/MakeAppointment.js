@@ -1,5 +1,5 @@
 import React from "react";
-import doctor from "../../../assets/images/doctor.png";
+import doctor from "../../../assets/images/doctor-small.png";
 import appointment from "../../../assets/images/appointment.png";
 import PrimaryButton from "../../Shared/Button/PrimaryButton";
 
@@ -10,7 +10,7 @@ const MakeAppointment = () => {
       className="flex justify-center items-center my-28"
     >
       <div className="lg:flex-1">
-        <img className="mt-[-165px] hidden lg:block" src={doctor} alt="" />
+        <img className="mt-[-100px] hidden lg:block" src={doctor} alt="" />
       </div>
       <div className="p-10 lg:flex-1">
         <h1 className="text-primary font-bold text-xl">Appointment</h1>
