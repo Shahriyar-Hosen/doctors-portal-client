@@ -5,7 +5,7 @@ const Service = ({ service }) => {
   return (
     <div class="card sm:max-w-sm md:max-w-md lg:max-w-lg bg-base-100 shadow-xl">
       <div class="card-body items-center text-center">
-        <h2 class="card-title">{name}</h2>
+        <h2 class="card-title text-secondary">{name}</h2>
         <p>
           {slots.length ? (
             <span>{slots[0]}</span>
