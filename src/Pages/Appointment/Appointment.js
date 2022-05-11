@@ -1,9 +1,10 @@
 import React from 'react';
+import Footer from '../Shared/Footer/Footer';
 
 const Appointment = () => {
     return (
         <div>
-            <h1>Appointment Page</h1>
+            <Footer></Footer>
         </div>
     );
 };
