@@ -17,12 +17,20 @@ const Login = () => {
   const [signInWithEmailAndPassword, user, loading, error] =
     useSignInWithEmailAndPassword(auth);
 
+  let signError;
+
   if (loading || gLoading) {
     return <Loading></Loading>;
   }
 
   if (user || gUser) {
     console.log(user);
+  }
+
+  if (error || gError) {
+    signError = (
+      <p className="text-red-500">{error?.message || gError?.message}</p>
+    );
   }
 
   const onSubmit = (data) => {
@@ -101,6 +109,8 @@ const Login = () => {
                 )}
               </label>
             </div>
+
+            {signError}
 
             <input
               type="submit"
