@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   useCreateUserWithEmailAndPassword,
   useSignInWithGoogle,
@@ -6,26 +6,31 @@ import {
 import auth from "../../firebase.init";
 import { useForm } from "react-hook-form";
 import Loading from "../Shared/Loading";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SignUp = () => {
+  const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
+  const [createUserWithEmailAndPassword, user, loading, error] =
+    useCreateUserWithEmailAndPassword(auth);
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useForm();
-  const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
-  const [createUserWithEmailAndPassword, user, loading, error] =
-    useCreateUserWithEmailAndPassword(auth);
+
+  const navigate = useNavigate();
 
   let signUpError;
 
+  useEffect(() => {
+    if (user || gUser) {
+      console.log(user || gUser);
+      navigate("/appointment");
+    }
+  }, [user, gUser, navigate]);
+
   if (loading || gLoading) {
     return <Loading></Loading>;
-  }
-
-  if (user || gUser) {
-    console.log(user || gUser);
   }
 
   if (error || gError) {
