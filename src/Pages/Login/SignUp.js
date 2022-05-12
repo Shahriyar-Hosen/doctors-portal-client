@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  useSignInWithEmailAndPassword,
+  useCreateUserWithEmailAndPassword,
   useSignInWithGoogle,
 } from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
@@ -15,10 +15,10 @@ const SignUp = () => {
     handleSubmit,
   } = useForm();
   const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
-  const [signInWithEmailAndPassword, user, loading, error] =
-    useSignInWithEmailAndPassword(auth);
+  const [createUserWithEmailAndPassword, user, loading, error] =
+    useCreateUserWithEmailAndPassword(auth);
 
-  let signError;
+  let signUpError;
 
   if (loading || gLoading) {
     return <Loading></Loading>;
@@ -29,14 +29,14 @@ const SignUp = () => {
   }
 
   if (error || gError) {
-    signError = (
+    signUpError = (
       <p className="text-red-500">{error?.message || gError?.message}</p>
     );
   }
 
   const onSubmit = (data) => {
     console.log(data);
-    signInWithEmailAndPassword(data.email, data.password);
+    createUserWithEmailAndPassword(data.email, data.password);
   };
   return (
     <div className="flex h-screen justify-center items-center">
@@ -45,7 +45,6 @@ const SignUp = () => {
           <h2 class="text-center text-2xl font-bold text-accent">Sign Up</h2>
 
           <form onSubmit={handleSubmit(onSubmit)}>
-
             <div class="form-control w-full max-w-xs">
               <label class="label">
                 <span class="label-text">Name</span>
@@ -58,7 +57,7 @@ const SignUp = () => {
                   required: {
                     value: true,
                     message: "Name is Required",
-                  }
+                  },
                 })}
               />
               <label class="label">
@@ -68,7 +67,6 @@ const SignUp = () => {
                   </span>
                 )}
               </label>
-
             </div>
             <div class="form-control w-full max-w-xs">
               <label class="label">
@@ -136,7 +134,7 @@ const SignUp = () => {
               </label>
             </div>
 
-            {signError}
+            {signUpError}
 
             <input
               type="submit"
