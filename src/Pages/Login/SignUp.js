@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import Loading from "../Shared/Loading";
 import { Link } from "react-router-dom";
 
-const Login = () => {
+const SignUp = () => {
   const {
     register,
     formState: { errors },
@@ -42,9 +42,34 @@ const Login = () => {
     <div className="flex h-screen justify-center items-center">
       <div class="card w-96 bg-base-100 shadow-xl">
         <div class="card-body">
-          <h2 class="text-center text-2xl font-bold text-accent">Login</h2>
+          <h2 class="text-center text-2xl font-bold text-accent">Sign Up</h2>
 
           <form onSubmit={handleSubmit(onSubmit)}>
+
+            <div class="form-control w-full max-w-xs">
+              <label class="label">
+                <span class="label-text">Name</span>
+              </label>
+              <input
+                type="text"
+                placeholder="Your Name"
+                class="input input-bordered w-full max-w-xs"
+                {...register("name", {
+                  required: {
+                    value: true,
+                    message: "Name is Required",
+                  }
+                })}
+              />
+              <label class="label">
+                {errors.name?.type === "required" && (
+                  <span class="label-text-alt text-red-500">
+                    {errors.name.message}
+                  </span>
+                )}
+              </label>
+
+            </div>
             <div class="form-control w-full max-w-xs">
               <label class="label">
                 <span class="label-text">Email</span>
@@ -116,17 +141,19 @@ const Login = () => {
             <input
               type="submit"
               className=" w-full max-w-xs btn text-white btn-accent"
-              value="Login"
+              value="Sign Up"
             />
           </form>
+
           <p className="text-center">
             <small>
-              New to Doctors Portal?{" "}
-              <Link to="/signup" className="text-primary">
-                Create new account
+              Already have an account?{" "}
+              <Link to="/login" className="text-primary">
+                Please login
               </Link>
             </small>
           </p>
+
           <div class="divider">OR</div>
           <button
             onClick={() => signInWithGoogle()}
@@ -140,4 +167,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;
