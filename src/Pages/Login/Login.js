@@ -17,8 +17,8 @@ const Login = () => {
   const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
   const [signInWithEmailAndPassword, user, loading, error] =
     useSignInWithEmailAndPassword(auth);
-    let navigate = useNavigate();
-    let location = useLocation();
+  let navigate = useNavigate();
+  let location = useLocation();
 
   let signInError;
   let from = location.state?.from?.pathname || "/";
@@ -104,6 +104,7 @@ const Login = () => {
                 })}
               />
               <label class="label">
+                <span class="label-text-alt  pb-2">Forgot Password ?</span>
                 {errors.password?.type === "required" && (
                   <span class="label-text-alt text-red-500">
                     {errors.password.message}
