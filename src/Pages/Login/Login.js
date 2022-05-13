@@ -1,14 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import {
+  useSendPasswordResetEmail,
   useSignInWithEmailAndPassword,
   useSignInWithGoogle,
 } from "react-firebase-hooks/auth";
-import auth from "../../firebase.init";
 import { useForm } from "react-hook-form";
-import Loading from "../Shared/Loading";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import auth from "../../firebase.init";
+import Loading from "../Shared/Loading";
 
 const Login = () => {
+  const emailRef = useRef("");
   const {
     register,
     formState: { errors },
@@ -17,8 +19,12 @@ const Login = () => {
   const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
   const [signInWithEmailAndPassword, user, loading, error] =
     useSignInWithEmailAndPassword(auth);
+  const [sendPasswordResetEmail, sending, resetEmailError] =
+    useSendPasswordResetEmail(auth);
+
   let navigate = useNavigate();
   let location = useLocation();
+  // const emailRef = useRef("");
 
   let signInError;
   let from = location.state?.from?.pathname || "/";
@@ -30,35 +36,47 @@ const Login = () => {
     }
   }, [user, gUser, navigate, from]);
 
-  if (loading || gLoading) {
+  if (loading || gLoading || sending) {
     return <Loading></Loading>;
   }
 
-  if (error || gError) {
+  if (error || gError || resetEmailError) {
     signInError = (
-      <p className="text-red-500">{error?.message || gError?.message}</p>
+      <p className="text-red-500">
+        {error?.message || gError?.message || resetEmailError?.message}
+      </p>
     );
   }
 
   const onSubmit = (data) => {
-    console.log(data);
     signInWithEmailAndPassword(data.email, data.password);
   };
+
+  
+  const resetPassword =  () => {
+    const email = emailRef.current.value;
+    // await sendPasswordResetEmail(email);
+    // alert("Sent email");
+    console.log(emailRef);
+    console.log(email);
+  };
+
   return (
     <div className="flex h-screen justify-center items-center">
-      <div class="card w-96 bg-base-100 shadow-xl">
-        <div class="card-body">
-          <h2 class="text-center text-2xl font-bold text-accent">Login</h2>
+      <div className="card w-96 bg-base-100 shadow-xl">
+        <div className="card-body">
+          <h2 className="text-center text-2xl font-bold text-accent">Login</h2>
 
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div class="form-control w-full max-w-xs">
-              <label class="label">
-                <span class="label-text">Email</span>
+            <div className="form-control w-full max-w-xs">
+              <label className="label">
+                <span className="label-text">Email</span>
               </label>
               <input
+                ref={emailRef} 
                 type="email"
                 placeholder="Your Email"
-                class="input input-bordered w-full max-w-xs"
+                className="input input-bordered w-full max-w-xs"
                 {...register("email", {
                   required: {
                     value: true,
@@ -70,28 +88,28 @@ const Login = () => {
                   },
                 })}
               />
-              <label class="label">
+              <label className="label">
                 {errors.email?.type === "required" && (
-                  <span class="label-text-alt text-red-500">
-                    {errors.email.message}
+                  <span className="label-text-alt text-red-500">
+                    {errors?.email?.message}
                   </span>
                 )}
                 {errors.email?.type === "pattern" && (
-                  <span class="label-text-alt  text-red-500">
-                    {errors.email.message}
+                  <span className="label-text-alt  text-red-500">
+                    {errors?.email?.message}
                   </span>
                 )}
               </label>
             </div>
 
-            <div class="form-control w-full max-w-xs">
-              <label class="label">
-                <span class="label-text">Password</span>
+            <div className="form-control w-full max-w-xs">
+              <label className="label">
+                <span className="label-text">Password</span>
               </label>
               <input
                 type="password"
                 placeholder="Password"
-                class="input input-bordered w-full max-w-xs"
+                className="input input-bordered w-full max-w-xs"
                 {...register("password", {
                   required: {
                     value: true,
@@ -103,16 +121,21 @@ const Login = () => {
                   },
                 })}
               />
-              <label class="label">
-                <span class="label-text-alt  pb-2">Forgot Password ?</span>
+              <label className="label">
+                <span
+                  className="label-text-alt  pb-2"
+                  onClick={resetPassword}
+                >
+                  Forgot Password ?
+                </span>
                 {errors.password?.type === "required" && (
-                  <span class="label-text-alt text-red-500">
-                    {errors.password.message}
+                  <span className="label-text-alt text-red-500">
+                    {errors?.password?.message}
                   </span>
                 )}
                 {errors.password?.type === "minLength" && (
-                  <span class="label-text-alt text-red-500">
-                    {errors.password.message}
+                  <span className="label-text-alt text-red-500">
+                    {errors?.password?.message}
                   </span>
                 )}
               </label>
@@ -134,10 +157,10 @@ const Login = () => {
               </Link>
             </small>
           </p>
-          <div class="divider">OR</div>
+          <div className="divider">OR</div>
           <button
             onClick={() => signInWithGoogle()}
-            class="btn btn-outline btn-accent w-full"
+            className="btn btn-outline btn-accent w-full"
           >
             CONTINUE WITH GOOGLE
           </button>
