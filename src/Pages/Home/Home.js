@@ -10,11 +10,9 @@ import Testimonial from "./Testimonial/Testimonial";
 const Home = () => {
   return (
     <div>
-      <section className=" px-12">
-        <Banner />
-        <Info />
-        <Services />
-      </section>
+      <Banner />
+      <Info />
+      <Services />
       <MakeAppointment />
       <Testimonial />
       <Contact />
