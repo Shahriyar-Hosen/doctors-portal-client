@@ -1,6 +1,7 @@
 import { format } from "date-fns";
 import React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { toast } from "react-toastify";
 import auth from "../../firebase.init";
 import Loading from "../Shared/Loading";
 
@@ -9,14 +10,49 @@ const BookingModal = ({ treatment, date, setTreatment }) => {
   const { _id, name, slots } = treatment;
 
   if (loading) {
-    return <Loading></Loading>
+    return <Loading></Loading>;
   }
+
+  const formattedDate = format(date, "PP");
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const slot = event.target.slot.value;
-    console.log(_id, name, slot);
-    setTreatment(null);
+
+    const booking = {
+      treatmentId: _id,
+      treatment: name,
+      data: formattedDate,
+      slot,
+      patient: user.email,
+      patientName: user.displayName,
+      phone: event.target.phone.value,
+    };
+
+    // create / POST Method - Add to database
+    fetch("http://localhost:5000/booking", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(booking),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+        if (data.success) {
+          toast(`Appointment is set, ${formattedDate} at ${slot}`);
+        } else {
+          toast.error(
+            `Already have an Appointment on ${data.booking?.date} at ${data.booking?.slot}`
+          );
+        }
+        setTreatment(null);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+    // ------------------------------------
   };
 
   return (
@@ -41,8 +77,11 @@ const BookingModal = ({ treatment, date, setTreatment }) => {
               disabled
               className="input input-bordered w-full max-w-xs"
             />
-            <select name="slot" className="select select-bordered w-full max-w-xs">
-              {slots.map((slot,index) => (
+            <select
+              name="slot"
+              className="select select-bordered w-full max-w-xs"
+            >
+              {slots.map((slot, index) => (
                 <option key={index} value={slot}>
                   {slot}
                 </option>
@@ -55,13 +94,13 @@ const BookingModal = ({ treatment, date, setTreatment }) => {
               value={user?.displayName || ""}
               className="input input-bordered w-full max-w-xs"
             />
-              <input
-                type="email"
-                name="email"
-                disabled
-                value={user?.email}
-                className="input input-bordered w-full max-w-xs"
-              />
+            <input
+              type="email"
+              name="email"
+              disabled
+              value={user?.email}
+              className="input input-bordered w-full max-w-xs"
+            />
             <input
               type="number"
               name="phone"
