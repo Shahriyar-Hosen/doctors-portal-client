@@ -22,7 +22,7 @@ const BookingModal = ({ treatment, date, setTreatment }) => {
     const booking = {
       treatmentId: _id,
       treatment: name,
-      data: formattedDate,
+      date: formattedDate,
       slot,
       patient: user.email,
       patientName: user.displayName,
@@ -61,7 +61,7 @@ const BookingModal = ({ treatment, date, setTreatment }) => {
       <div className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
           <label
-            for="booking-modal"
+            htmlFor="booking-modal"
             className="btn btn-sm btn-circle absolute right-2 top-2"
           >
             ✕
