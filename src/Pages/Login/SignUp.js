@@ -2,11 +2,12 @@ import React, { useEffect } from "react";
 import {
   useCreateUserWithEmailAndPassword,
   useSignInWithGoogle,
-  useUpdateProfile
+  useUpdateProfile,
 } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import auth from "../../firebase.init";
+import useToken from "../../hooks/useToken";
 import Loading from "../Shared/Loading";
 
 const SignUp = () => {
@@ -19,6 +20,7 @@ const SignUp = () => {
   const [createUserWithEmailAndPassword, user, loading, error] =
     useCreateUserWithEmailAndPassword(auth, { sendEmailVerification: true });
   const [updateProfile, updating, updateError] = useUpdateProfile(auth);
+  const [token] = useToken(user || gUser);
 
   const navigate = useNavigate();
   let location = useLocation();
@@ -26,11 +28,11 @@ const SignUp = () => {
   let signUpError;
   let from = location.state?.from?.pathname || "/";
 
-  useEffect(() => {
-    if (user || gUser) {
-      navigate(from, { replace: true });
-    }
-  }, [user, gUser, navigate, from]);
+  // useEffect(() => {
+  //   if (user || gUser) {
+  //     // navigate(from, { replace: true });
+  //   }
+  // }, [user, gUser, navigate, from]);
 
   if (loading || gLoading || updating) {
     return <Loading></Loading>;
@@ -44,16 +46,21 @@ const SignUp = () => {
     );
   }
 
+  if (token) {
+    navigate(from, { replace: true });
+  }
+
   const onSubmit = async (data) => {
     await createUserWithEmailAndPassword(data.email, data.password);
     await updateProfile({ displayName: data.name });
-    console.log("Update done");
   };
   return (
     <div className="flex h-screen justify-center items-center">
       <div className="card w-96 bg-base-100 shadow-xl">
         <div className="card-body">
-          <h2 className="text-center text-2xl font-bold text-accent">Sign Up</h2>
+          <h2 className="text-center text-2xl font-bold text-accent">
+            Sign Up
+          </h2>
 
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="form-control w-full max-w-xs">
