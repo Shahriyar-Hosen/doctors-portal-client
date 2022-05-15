@@ -28,11 +28,11 @@ const SignUp = () => {
   let signUpError;
   let from = location.state?.from?.pathname || "/";
 
-  // useEffect(() => {
-  //   if (user || gUser) {
-  //     // navigate(from, { replace: true });
-  //   }
-  // }, [user, gUser, navigate, from]);
+  useEffect(() => {
+    if (token) {
+      navigate(from, { replace: true });
+    }
+  }, [token, navigate, from]);
 
   if (loading || gLoading || updating) {
     return <Loading></Loading>;
@@ -44,10 +44,6 @@ const SignUp = () => {
         {error?.message || gError?.message || updateError?.message}
       </p>
     );
-  }
-
-  if (token) {
-    navigate(from, { replace: true });
   }
 
   const onSubmit = async (data) => {

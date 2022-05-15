@@ -7,7 +7,7 @@ const useToken = (user) => {
     const email = user?.user?.email;
     const currentUser = { email: email };
     if (email) {
-    //   update / PUT Method update using id
+      //   update / PUT Method update using id
       const url = `http://localhost:5000/user/${email}`;
       fetch(url, {
         method: "PUT",
@@ -19,6 +19,9 @@ const useToken = (user) => {
         .then((response) => response.json())
         .then((data) => {
           console.log("Data inside useToken:", data);
+          const accessToken = data.token;
+          localStorage.setItem("accessToken", accessToken);
+          setToken(accessToken);
         });
       // ------------------------------------
     }
