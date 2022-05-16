@@ -1,15 +1,18 @@
 import { signOut } from "firebase/auth";
 import React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import auth from "../../../firebase.init";
 
 const Navbar = () => {
   const [user] = useAuthState(auth);
+  const { pathname } = useLocation();
+
   const logout = () => {
     signOut(auth);
     localStorage.removeItem("accessToken");
   };
+
   const menuItems = (
     <>
       <li>
@@ -74,10 +77,14 @@ const Navbar = () => {
           Doctors Portal
         </Link>
       </div>
-      <div className="navbar-center hidden lg:flex navbar-end">
+      <div className="hidden lg:flex gap-x-5 navbar-end">
         <ul className="menu menu-horizontal p-0">{menuItems}</ul>
       </div>
-      <div className="navbar-end">
+      <div
+        className={`${
+          pathname === "/dashboard" ? " navbar-end md:hidden": "hidden"
+        }`}
+      >
         <label
           tabIndex="0"
           htmlFor="dashboard-sidebar"
