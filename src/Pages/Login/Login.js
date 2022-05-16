@@ -26,7 +26,6 @@ const Login = () => {
 
   let navigate = useNavigate();
   let location = useLocation();
-  // const emailRef = useRef("");
 
   let signInError;
   let from = location.state?.from?.pathname || "/";
