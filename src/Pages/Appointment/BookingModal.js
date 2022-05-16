@@ -30,7 +30,7 @@ const BookingModal = ({ treatment, date, setTreatment, refetch }) => {
     };
 
     // create / POST Method - Add to database
-    fetch("http://localhost:5000/booking", {
+    fetch("https://floating-fortress-02159.herokuapp.com/booking", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

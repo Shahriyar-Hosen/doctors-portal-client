@@ -8,7 +8,7 @@ const useToken = (user) => {
     const currentUser = { email: email };
     if (email) {
       //   update / PUT Method update using id
-      const url = `http://localhost:5000/user/${email}`;
+      const url = `https://floating-fortress-02159.herokuapp.com/user/${email}`;
       fetch(url, {
         method: "PUT",
         headers: {
