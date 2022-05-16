@@ -82,7 +82,12 @@ const Navbar = () => {
       </div>
       <div
         className={`${
-          pathname === "/dashboard" ? " navbar-end md:hidden": "hidden"
+          pathname === "/dashboard" ||
+          "/dashboard/review" ||
+          "/dashboard/history" ||
+          "/dashboard/users"
+            ? " navbar-end md:hidden"
+            : "hidden"
         }`}
       >
         <label
