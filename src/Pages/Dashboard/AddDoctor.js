@@ -16,7 +16,7 @@ const AddDoctor = () => {
     data: services,
     isLoading
   } = useQuery(["services"], () =>
-    fetch(`http://localhost:5000/services`).then((res) => res.json())
+    fetch(`https://floating-fortress-02159.herokuapp.com/services`).then((res) => res.json())
   );
 
   /**
@@ -54,7 +54,7 @@ const AddDoctor = () => {
           };
           
           // send to database
-          fetch("http://localhost:5000/doctor", {
+          fetch("https://floating-fortress-02159.herokuapp.com/doctor", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

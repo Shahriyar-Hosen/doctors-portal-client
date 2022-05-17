@@ -6,7 +6,7 @@ const DeletingConfirm = ({ refetch, deletingDoctor, setDeletingDoctor }) => {
 
   // Delete Doctor - delete by email
   const deleteUser = () => {
-    const url = `http://localhost:5000/doctor/${email}`;
+    const url = `https://floating-fortress-02159.herokuapp.com/doctor/${email}`;
     fetch(url, {
       method: "DELETE",
       headers: {
