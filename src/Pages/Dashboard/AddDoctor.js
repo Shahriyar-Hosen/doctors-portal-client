@@ -50,6 +50,7 @@ const AddDoctor = () => {
             )}
           </label>
         </div>
+
         <div className="form-control w-full max-w-xs">
           <label className="label">
             <span className="label-text">Email</span>
@@ -96,6 +97,17 @@ const AddDoctor = () => {
               <option key={service._id}>{service.name}</option>
             ))}
           </select>
+        </div>
+
+        <div className="form-control w-full max-w-xs">
+          <label className="label">
+            <span className="label-text">Name</span>
+          </label>
+          <input
+            type="file"
+            className="input input-bordered w-full max-w-xs mb-5"
+            {...register("image")}
+          />
         </div>
 
         <input
