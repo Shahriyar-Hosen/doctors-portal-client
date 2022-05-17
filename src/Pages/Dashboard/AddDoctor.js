@@ -14,15 +14,47 @@ const AddDoctor = () => {
     fetch(`http://localhost:5000/services`).then((res) => res.json())
   );
 
+  /**
+   * 3 ways to store images
+   * 1. Third party storage //Free open public storage is ok for Practice project
+   * 2. Your own storage in your own server (file system)
+   * 3. Database: Mongodb
+   *
+   * YUP: to validate file: Search: Yup file validation for react hook form
+   */
+
+  const imageStorageKey = "eb95b9b38ed8236d469fc8127ee23564";
+
+  const onSubmit = async (data) => {
+    const formData = new FormData();
+    const image = data.image[0];
+
+    formData.append("image", image);
+
+    const url = `https://api.imgbb.com/1/upload?key=${imageStorageKey}`;
+    fetch(url, {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        const image = result.data.url;
+        if (result.success) {
+          const doctor = {
+            name: data.name,
+            email: data.email,
+            specialty: data.specialty,
+            img: image,
+          };
+          console.log(doctor);
+        }
+      });
+  };
+
   if (isLoading) {
     return <Loading></Loading>;
   }
 
-  const onSubmit = async (data) => {
-    // await createUserWithEmailAndPassword(data.email, data.password);
-    // await updateProfile({ displayName: data.name });
-    console.log("add data", data);
-  };
   return (
     <div className="">
       <h2 className="text-2xl">Add a New Doctor</h2>
