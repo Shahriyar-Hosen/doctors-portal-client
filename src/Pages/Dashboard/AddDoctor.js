@@ -1,5 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useQuery } from "react-query";
+import Loading from "../Shared/Loading";
 
 const AddDoctor = () => {
   const {
@@ -8,9 +10,18 @@ const AddDoctor = () => {
     handleSubmit,
   } = useForm();
 
+  const { data: services, isLoading } = useQuery(["services"], () =>
+    fetch(`http://localhost:5000/services`).then((res) => res.json())
+  );
+
+  if (isLoading) {
+    return <Loading></Loading>;
+  }
+
   const onSubmit = async (data) => {
     // await createUserWithEmailAndPassword(data.email, data.password);
     // await updateProfile({ displayName: data.name });
+    console.log("add data", data);
   };
   return (
     <div className="">
@@ -76,30 +87,21 @@ const AddDoctor = () => {
           <label className="label">
             <span className="label-text">Specialty</span>
           </label>
-          <input
-            type="text"
-            placeholder="Specialty"
-            className="input input-bordered w-full max-w-xs"
-            {...register("specialty", {
-              required: {
-                value: true,
-                message: "Specialization is Required",
-              }
-            })}
-          />
-          <label className="label">
-            {errors.specialty?.type === "required" && (
-              <span className="label-text-alt text-red-500">
-                {errors.specialty.message}
-              </span>
-            )}
-          </label>
+
+          <select
+            {...register("specialty")}
+            class="select select-bordered w-full max-w-xs mb-5"
+          >
+            {services.map((service) => (
+              <option key={service._id}>{service.name}</option>
+            ))}
+          </select>
         </div>
 
         <input
           type="submit"
           className=" w-full max-w-xs btn text-white btn-accent"
-          value="Sign Up"
+          value="Add"
         />
       </form>
     </div>
