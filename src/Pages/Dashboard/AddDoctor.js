@@ -1,6 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useQuery } from "react-query";
+import { toast } from "react-toastify";
 import Loading from "../Shared/Loading";
 
 const AddDoctor = () => {
@@ -8,9 +9,13 @@ const AddDoctor = () => {
     register,
     formState: { errors },
     handleSubmit,
+    reset,
   } = useForm();
 
-  const { data: services, isLoading } = useQuery(["services"], () =>
+  const {
+    data: services,
+    isLoading
+  } = useQuery(["services"], () =>
     fetch(`http://localhost:5000/services`).then((res) => res.json())
   );
 
@@ -39,6 +44,7 @@ const AddDoctor = () => {
       .then((res) => res.json())
       .then((result) => {
         const image = result.data.url;
+
         if (result.success) {
           const doctor = {
             name: data.name,
@@ -46,7 +52,27 @@ const AddDoctor = () => {
             specialty: data.specialty,
             img: image,
           };
-          console.log(doctor);
+          
+          // send to database
+          fetch("http://localhost:5000/doctor", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+            },
+            body: JSON.stringify(doctor),
+          })
+            .then((res) => res.json())
+            .then((inserted) => {
+
+              if (inserted.insertedId) {
+                toast.success("Doctor Add successfully");
+                reset();
+              } else {
+                toast.error("Failed to Add Tha Doctor");
+              }
+
+            });
         }
       });
   };
