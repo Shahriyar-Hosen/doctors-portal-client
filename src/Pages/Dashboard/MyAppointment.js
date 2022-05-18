@@ -1,7 +1,7 @@
 import { signOut } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import auth from "../../firebase.init";
 
 const MyAppointment = () => {
@@ -11,12 +11,15 @@ const MyAppointment = () => {
 
   useEffect(() => {
     if (user) {
-      fetch(`https://floating-fortress-02159.herokuapp.com/booking?patient=${user.email}`, {
-        method: "GET",
-        headers: {
-          authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      })
+      fetch(
+        `https://floating-fortress-02159.herokuapp.com/booking?patient=${user.email}`,
+        {
+          method: "GET",
+          headers: {
+            authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      )
         .then((res) => {
           if (res.status === 401 || res.status === 403) {
             signOut(auth);
@@ -30,6 +33,21 @@ const MyAppointment = () => {
         });
     }
   }, [user, navigate]);
+
+  /* 
+  // how to use array revers using map
+  const arr = ['a', 'b', 'c'];
+
+const mapReverse1 = arr
+  .slice(0)
+  .reverse()
+  .map(element => {
+    return element;
+  });
+
+console.log(mapReverse1); // 👉️ ['c', 'b', 'a']
+  */
+
   return (
     <div>
       <div className="overflow-x-auto">
@@ -41,18 +59,32 @@ const MyAppointment = () => {
               <th>Date</th>
               <th>Time</th>
               <th>Patient</th>
+              <th>Payment</th>
             </tr>
           </thead>
           <tbody>
-            {appointments?.map((a, index) => (
-              <tr key={index}>
-                <th>{index + 1}</th>
-                <td>{a.patientName}</td>
-                <td>{a.date}</td>
-                <td>{a.slot}</td>
-                <td>{a.treatment}</td>
-              </tr>
-            ))}
+            {appointments
+              ?.slice(0)
+              .reverse()
+              .map((a, index) => (
+                <tr key={index}>
+                  <th>{index + 1}</th>
+                  <td>{a.patientName}</td>
+                  <td>{a.date}</td>
+                  <td>{a.slot}</td>
+                  <td>{a.treatment}</td>
+                  <td>
+                    {a.price && !a.paid && (
+                      <Link to={`/dashboard/payment/:${a._id}`}>
+                        <button className="btn btn-xs btn-success">Pay</button>
+                      </Link>
+                    )}
+                    {a.price && a.paid && (
+                      <span className="text-success">Paid</span>
+                    )}
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>
