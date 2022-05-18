@@ -85,6 +85,8 @@ const Navbar = () => {
           pathname === "/dashboard" ||
           "/dashboard/review" ||
           "/dashboard/history" ||
+          "/dashboard/addDoctor" ||
+          "/dashboard/addDoctor" ||
           "/dashboard/users"
             ? " navbar-end md:hidden"
             : "hidden"

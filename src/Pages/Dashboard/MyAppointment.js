@@ -75,7 +75,7 @@ console.log(mapReverse1); // 👉️ ['c', 'b', 'a']
                   <td>{a.treatment}</td>
                   <td>
                     {a.price && !a.paid && (
-                      <Link to={`/dashboard/payment/:${a._id}`}>
+                      <Link to={`/dashboard/payment/${a._id}`}>
                         <button className="btn btn-xs btn-success">Pay</button>
                       </Link>
                     )}
