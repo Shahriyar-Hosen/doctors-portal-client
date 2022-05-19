@@ -15,7 +15,7 @@ const DeletingConfirm = ({ refetch, deletingDoctor, setDeletingDoctor }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        
         if (data.deletedCount) {
           toast.success(`Doctor: ${name} is deleted`);
           setDeletingDoctor(null);

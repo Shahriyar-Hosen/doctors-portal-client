@@ -57,8 +57,6 @@ const Login = () => {
     const email = emailRef.current.value;
     // await sendPasswordResetEmail(email);
     // alert("Sent email");
-    console.log(emailRef);
-    console.log(email);
   };
 
   return (

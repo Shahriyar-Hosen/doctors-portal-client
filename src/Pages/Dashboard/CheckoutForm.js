@@ -23,12 +23,10 @@ const CheckoutForm = ({ appointment }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         if (data?.clientSecret) {
           setClientSecret(data.clientSecret);
         }
       })
-      .catch((err) => console.log(err));
   }, [price]);
 
   const handleSubmit = async (event) => {
@@ -53,9 +51,6 @@ const CheckoutForm = ({ appointment }) => {
     setSuccess("");
     setProcessing(true);
 
-    console.log("paymentMethod", paymentMethod);
-    console.log("clientSecret", clientSecret);
-
     //  stripe confirm card payment
     const { paymentIntent, error: intentError } =
       await stripe.confirmCardPayment(clientSecret, {
@@ -67,9 +62,7 @@ const CheckoutForm = ({ appointment }) => {
           },
         },
       });
-
-    // console.log("intentError", intentError);
-    console.log("paymentIntent", paymentIntent);
+      
 
     if (intentError) {
       setCardError(intentError?.message);
@@ -83,8 +76,7 @@ const CheckoutForm = ({ appointment }) => {
         appointment: _id,
         transactionId: paymentIntent.id,
       };
-      console.log(payment);
-      console.log(_id);
+      
       fetch(`https://floating-fortress-02159.herokuapp.com/booking/${_id}`, {
         method: "PATCH",
         headers: {
@@ -96,7 +88,6 @@ const CheckoutForm = ({ appointment }) => {
         .then((res) => res.json())
         .then((data) => {
           setProcessing(false);
-          console.log(data);
         });
     }
   };
