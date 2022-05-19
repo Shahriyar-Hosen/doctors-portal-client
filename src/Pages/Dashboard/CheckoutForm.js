@@ -13,7 +13,7 @@ const CheckoutForm = ({ appointment }) => {
   const { _id, price, patient, patientName } = appointment;
 
   useEffect(() => {
-    fetch("http://localhost:5000/create-payment-intent", {
+    fetch("https://floating-fortress-02159.herokuapp.com/create-payment-intent", {
       method: "POST",
       headers: {
         "content-Type": "application/json",
@@ -85,7 +85,7 @@ const CheckoutForm = ({ appointment }) => {
       };
       console.log(payment);
       console.log(_id);
-      fetch(`http://localhost:5000/booking/${_id}`, {
+      fetch(`https://floating-fortress-02159.herokuapp.com/booking/${_id}`, {
         method: "PATCH",
         headers: {
           "content-type": "application/json",
