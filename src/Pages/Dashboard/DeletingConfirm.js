@@ -26,21 +26,21 @@ const DeletingConfirm = ({ refetch, deletingDoctor, setDeletingDoctor }) => {
   // ----------------------------------------
   return (
     <div>
-      <input type="checkbox" id="deleting-modal" class="modal-toggle" />
-      <div class="modal modal-bottom sm:modal-middle">
-        <div class="modal-box">
-          <h3 class="font-bold text-lg text-red-700">
+      <input type="checkbox" id="deleting-modal" className="modal-toggle" />
+      <div className="modal modal-bottom sm:modal-middle">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg text-red-700">
             Are You Sure!! You wont to Delete {name}!
           </h3>
-          <p class="py-4 text-orange-700">
+          <p className="py-4 text-orange-700">
             {name} provides {specialty} services. <br />
             Make sure you wont to delete {name}!
           </p>
-          <div class="modal-action">
-            <button class="btn btn-xs btn-error" onClick={() => deleteUser()}>
+          <div className="modal-action">
+            <button className="btn btn-xs btn-error" onClick={() => deleteUser()}>
               Delete
             </button>
-            <label for="deleting-modal" class="btn btn-xs btn-error">
+            <label for="deleting-modal" className="btn btn-xs btn-error">
               Cancel
             </label>
           </div>

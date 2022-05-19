@@ -6,7 +6,9 @@ import { useParams } from "react-router-dom";
 import Loading from "../Shared/Loading";
 import CheckoutForm from "./CheckoutForm";
 
-const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
+const stripePromise = loadStripe(
+  "pk_test_51L0f1oKV9SXZr5OTG54GyvmiUqNNC7Et3we47Xb0LG9w6H3y26Qz1wVxk99C6mahS85qjc42OW8LoBWYdaAc971J00VYK3Rat9"
+);
 
 const Payment = () => {
   const { id } = useParams();
@@ -26,14 +28,13 @@ const Payment = () => {
     return <Loading></Loading>;
   }
   const { date, patientName, treatment, slot, price } = appointment;
-  console.log(appointment);
 
   return (
-    <div class="card w-full lg:w-1/2 my-12 lg:mx-auto bg-base-100 shadow-xl">
-      <div class="card w-full bg-base-100 shadow-lg mb-20">
-        <div class="card-body">
+    <div className="card w-full lg:w-1/2 my-12 lg:mx-auto bg-base-100 shadow-xl">
+      <div className="card w-full bg-base-100 shadow-lg mb-20">
+        <div className="card-body">
           <p className="text-success">Hello, {patientName}</p>
-          <h2 class="card-title text-2xl font-bold">
+          <h2 className="card-title text-2xl font-bold">
             Please Pay for {treatment}
           </h2>
           <p>
@@ -43,11 +44,11 @@ const Payment = () => {
           <p>Please Pay: ${price}</p>
         </div>
       </div>
-      <div class="card-body">
-        <h2 class="card-title">New album is released!</h2>
+      <div className="card-body">
+        <h2 className="card-title">New album is released!</h2>
         <Elements stripe={stripePromise}>
-      <CheckoutForm />
-    </Elements>
+          <CheckoutForm appointment={appointment} />
+        </Elements>
       </div>
     </div>
   );
