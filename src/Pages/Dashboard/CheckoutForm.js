@@ -1,5 +1,8 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import PaymentLoading from "./PaymentLoading";
 
 const CheckoutForm = ({ appointment }) => {
   const stripe = useStripe();
@@ -7,8 +10,8 @@ const CheckoutForm = ({ appointment }) => {
   const [clientSecret, setClientSecret] = useState("");
   const [cardError, setCardError] = useState("");
   const [success, setSuccess] = useState("");
-  const [transactionId, setTransactionId] = useState("");
   const [processing, setProcessing] = useState(false);
+  let navigate = useNavigate();
 
   const { _id, price, patient, patientName } = appointment;
 
@@ -71,7 +74,6 @@ const CheckoutForm = ({ appointment }) => {
       setProcessing(false);
     } else {
       setCardError("");
-      setTransactionId(paymentIntent.id);
       setSuccess("Congrats! Your payment is completed.");
 
       // store payment on database
@@ -98,6 +100,13 @@ const CheckoutForm = ({ appointment }) => {
         });
     }
   };
+  if (processing) {
+    return <PaymentLoading></PaymentLoading>;
+  }
+  if (success) {
+    toast(success);
+    navigate("/dashboard");
+  }
   return (
     <>
       <form onSubmit={handleSubmit}>
@@ -119,6 +128,7 @@ const CheckoutForm = ({ appointment }) => {
         />
         <button
           className="btn btn-success btn-sm mt-5"
+          for="payment-confirm"
           type="submit"
           disabled={!stripe || !clientSecret}
         >
@@ -126,15 +136,6 @@ const CheckoutForm = ({ appointment }) => {
         </button>
       </form>
       {cardError && <p className="text-red-500">{cardError}</p>}
-      {success && (
-        <div className="text-green-500 text-xl">
-          <p>{success}</p>
-          <p>
-            Your Transaction Id:{" "}
-            <span className="text-orange-500 font-bold">{transactionId}</span>
-          </p>
-        </div>
-      )}
     </>
   );
 };
