@@ -17,7 +17,7 @@ const Dashboard = () => {
         <Outlet></Outlet>
       </div>
       <div className="drawer-side">
-        <label htmlFor="dashboard-sidebar" className="drawer-overlay"></label>
+        <label  htmlFor="dashboard-sidebar" className="drawer-overlay"></label>
         <ul className="menu p-4 overflow-y-auto w-48 md:w-48 bg-base-100 text-base-content">
           {/* <!-- Sidebar content here --> */}
           <li>

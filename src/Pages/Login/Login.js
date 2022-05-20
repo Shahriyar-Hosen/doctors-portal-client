@@ -1,14 +1,14 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
-  useSendPasswordResetEmail,
   useSignInWithEmailAndPassword,
-  useSignInWithGoogle,
+  useSignInWithGoogle
 } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import auth from "../../firebase.init";
 import useToken from "../../hooks/useToken";
 import Loading from "../Shared/Loading";
+import ForgotPass from "./ForgotPass";
 
 const Login = () => {
   const emailRef = useRef("");
@@ -17,12 +17,13 @@ const Login = () => {
     formState: { errors },
     handleSubmit,
   } = useForm();
+
   const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
   const [signInWithEmailAndPassword, user, loading, error] =
     useSignInWithEmailAndPassword(auth);
-  const [sendPasswordResetEmail, sending, resetEmailError] =
-    useSendPasswordResetEmail(auth);
-    const [token] = useToken(user || gUser);
+
+  const [token] = useToken(user || gUser);
+  const [forgot, setForgot] = useState(false);
 
   let navigate = useNavigate();
   let location = useLocation();
@@ -36,14 +37,14 @@ const Login = () => {
     }
   }, [token, navigate, from]);
 
-  if (loading || gLoading || sending) {
+  if (loading || gLoading ) {
     return <Loading></Loading>;
   }
 
-  if (error || gError || resetEmailError) {
+  if (error || gError) {
     signInError = (
       <p className="text-red-500">
-        {error?.message || gError?.message || resetEmailError?.message}
+        {error?.message || gError?.message}
       </p>
     );
   }
@@ -52,12 +53,6 @@ const Login = () => {
     signInWithEmailAndPassword(data.email, data.password);
   };
 
-  
-  const resetPassword =  () => {
-    const email = emailRef.current.value;
-    // await sendPasswordResetEmail(email);
-    // alert("Sent email");
-  };
 
   return (
     <div className="flex h-screen justify-center items-center ">
@@ -71,7 +66,7 @@ const Login = () => {
                 <span className="label-text">Email</span>
               </label>
               <input
-                ref={emailRef} 
+                ref={emailRef}
                 type="email"
                 placeholder="Your Email"
                 className="input input-bordered w-full max-w-xs"
@@ -120,12 +115,13 @@ const Login = () => {
                 })}
               />
               <label className="label">
-                <span
-                  className="label-text-alt  pb-2"
-                  onClick={resetPassword}
+                <label
+                  onClick={() => setForgot(true)}
+                  htmlFor="forgot-password"
+                  className="label-text-alt  pb-2 modal-button"
                 >
                   Forgot Password ?
-                </span>
+                </label>
                 {errors.password?.type === "required" && (
                   <span className="label-text-alt text-red-500">
                     {errors?.password?.message}
@@ -164,6 +160,8 @@ const Login = () => {
           </button>
         </div>
       </div>
+
+      {forgot && <ForgotPass setForgot={setForgot}></ForgotPass>}
     </div>
   );
 };

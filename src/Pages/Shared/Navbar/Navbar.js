@@ -94,7 +94,7 @@ const Navbar = () => {
       >
         <label
           tabIndex="0"
-          htmlFor="dashboard-sidebar"
+           htmlFor="dashboard-sidebar"
           className="btn btn-ghost lg:hidden"
         >
           <svg
