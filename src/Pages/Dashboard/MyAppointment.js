@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link, useNavigate } from "react-router-dom";
 import auth from "../../firebase.init";
+import Loading from "../Shared/Loading";
 
 const MyAppointment = () => {
   const [user] = useAuthState(auth);
@@ -34,6 +35,9 @@ const MyAppointment = () => {
     }
   }, [user, navigate]);
 
+  // if (appointments.length === 0) {
+  //   return <Loading></Loading>;
+  // }
   /* 
   // how to use array revers using map
   const arr = ['a', 'b', 'c'];
@@ -86,7 +90,7 @@ console.log(mapReverse1); // 👉️ ['c', 'b', 'a']
                         <p className="text-xl">Paid ✅</p>{" "}
                         <small className="">
                           Transaction Id: 🔖
-                           {a.transactionId}
+                          {a.transactionId}
                         </small>
                       </div>
                     )}
@@ -95,6 +99,9 @@ console.log(mapReverse1); // 👉️ ['c', 'b', 'a']
               ))}
           </tbody>
         </table>
+        {appointments.length === 0 && (
+          <progress className="progress  w-full"></progress>
+        )}
       </div>
     </div>
   );
