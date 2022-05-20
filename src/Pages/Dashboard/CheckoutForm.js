@@ -2,15 +2,14 @@ import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import PaymentLoading from "./PaymentLoading";
 
 const CheckoutForm = ({ appointment }) => {
   const stripe = useStripe();
   const elements = useElements();
   const [clientSecret, setClientSecret] = useState("");
   const [cardError, setCardError] = useState("");
-  const [success, setSuccess] = useState("");
   const [processing, setProcessing] = useState(false);
+  // const [success, setSuccess] = useState(false);
   let navigate = useNavigate();
 
   const { _id, price, patient, patientName } = appointment;
@@ -54,7 +53,6 @@ const CheckoutForm = ({ appointment }) => {
     });
 
     setCardError(error?.message || "");
-    setSuccess("");
     setProcessing(true);
 
     //  stripe confirm card payment
@@ -74,7 +72,6 @@ const CheckoutForm = ({ appointment }) => {
       setProcessing(false);
     } else {
       setCardError("");
-      setSuccess("Congrats! Your payment is completed.");
 
       // store payment on database
       const payment = {
@@ -97,16 +94,14 @@ const CheckoutForm = ({ appointment }) => {
         .then((res) => res.json())
         .then((data) => {
           setProcessing(false);
+          if (data.acknowledged) {
+            navigate("/dashboard");
+            toast.success("Congrats! Your payment is completed.");
+          }
         });
     }
   };
-  if (processing) {
-    return <PaymentLoading></PaymentLoading>;
-  }
-  if (success) {
-    toast(success);
-    navigate("/dashboard");
-  }
+
   return (
     <>
       <form onSubmit={handleSubmit}>
@@ -128,7 +123,6 @@ const CheckoutForm = ({ appointment }) => {
         />
         <button
           className="btn btn-success btn-sm mt-5"
-          for="payment-confirm"
           type="submit"
           disabled={!stripe || !clientSecret}
         >
@@ -136,6 +130,7 @@ const CheckoutForm = ({ appointment }) => {
         </button>
       </form>
       {cardError && <p className="text-red-500">{cardError}</p>}
+      {processing && !cardError && <progress className="progress w-full"></progress>}
     </>
   );
 };

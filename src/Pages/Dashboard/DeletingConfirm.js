@@ -40,7 +40,7 @@ const DeletingConfirm = ({ refetch, deletingDoctor, setDeletingDoctor }) => {
             <button className="btn btn-xs btn-error" onClick={() => deleteUser()}>
               Delete
             </button>
-            <label for="deleting-modal" className="btn btn-xs btn-error">
+            <label htmlFor="deleting-modal" className="btn btn-xs btn-error">
               Cancel
             </label>
           </div>

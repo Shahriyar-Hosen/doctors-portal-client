@@ -49,7 +49,7 @@ console.log(mapReverse1); // 👉️ ['c', 'b', 'a']
   */
 
   return (
-    <div>
+    <div className="md:mx-24">
       <div className="overflow-x-auto">
         <table className="table w-full">
           <thead>
@@ -76,11 +76,19 @@ console.log(mapReverse1); // 👉️ ['c', 'b', 'a']
                   <td>
                     {a.price && !a.paid && (
                       <Link to={`/dashboard/payment/${a._id}`}>
-                        <button className="btn btn-xs btn-success">Pay</button>
+                        <button className="btn btn-xs btn-success mx-auto">
+                          Pay
+                        </button>
                       </Link>
                     )}
                     {a.price && a.paid && (
-                      <span className="text-success">Paid</span>
+                      <div className="text-green-500">
+                        <p className="text-xl">Paid ✅</p>{" "}
+                        <small className="">
+                          Transaction Id: 🔖
+                           {a.transactionId}
+                        </small>
+                      </div>
                     )}
                   </td>
                 </tr>

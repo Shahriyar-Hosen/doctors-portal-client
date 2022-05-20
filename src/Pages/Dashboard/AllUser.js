@@ -29,14 +29,14 @@ const AllUser = () => {
           <thead>
             <tr>
               <th></th>
-              <th>Name</th>
-              <th>Job</th>
-              <th>Favorite Color</th>
+              <th>Email</th>
+              <th>Admin</th>
+              <th>Remove</th>
             </tr>
           </thead>
           <tbody>
             {users?.map((user) => (
-              <UserRow key={user._id} user={user}refetch={refetch}></UserRow>
+              <UserRow key={user._id} user={user} refetch={refetch}></UserRow>
             ))}
           </tbody>
         </table>

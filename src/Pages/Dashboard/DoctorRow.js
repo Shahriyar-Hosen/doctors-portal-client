@@ -18,7 +18,7 @@ const DoctorRow = ({ index, doctor, setDeletingDoctor }) => {
       <td>
         <label
           onClick={() => setDeletingDoctor(doctor)}
-          for="deleting-modal"
+          htmlFor="deleting-modal"
           className="btn btn-xs btn-error"
         >
           Delete
