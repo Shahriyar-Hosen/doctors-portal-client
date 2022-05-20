@@ -13,20 +13,23 @@ const CheckoutForm = ({ appointment }) => {
   const { _id, price, patient, patientName } = appointment;
 
   useEffect(() => {
-    fetch("https://floating-fortress-02159.herokuapp.com/create-payment-intent", {
-      method: "POST",
-      headers: {
-        "content-Type": "application/json",
-        authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-      },
-      body: JSON.stringify({ price }),
-    })
+    fetch(
+      "https://floating-fortress-02159.herokuapp.com/create-payment-intent",
+      {
+        method: "POST",
+        headers: {
+          "content-Type": "application/json",
+          authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+        body: JSON.stringify({ price }),
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         if (data?.clientSecret) {
           setClientSecret(data.clientSecret);
         }
-      })
+      });
   }, [price]);
 
   const handleSubmit = async (event) => {
@@ -62,10 +65,10 @@ const CheckoutForm = ({ appointment }) => {
           },
         },
       });
-      
 
     if (intentError) {
       setCardError(intentError?.message);
+      setProcessing(false);
     } else {
       setCardError("");
       setTransactionId(paymentIntent.id);
@@ -75,8 +78,12 @@ const CheckoutForm = ({ appointment }) => {
       const payment = {
         appointment: _id,
         transactionId: paymentIntent.id,
+        paymentMethod: {
+          id: paymentMethod.id,
+          cardName: paymentMethod.card.brand,
+        },
       };
-      
+
       fetch(`https://floating-fortress-02159.herokuapp.com/booking/${_id}`, {
         method: "PATCH",
         headers: {
@@ -120,11 +127,11 @@ const CheckoutForm = ({ appointment }) => {
       </form>
       {cardError && <p className="text-red-500">{cardError}</p>}
       {success && (
-        <div className="text-green-500">
+        <div className="text-green-500 text-xl">
           <p>{success}</p>
           <p>
             Your Transaction Id:{" "}
-            <span className="text-orange-700 font-bold">{transactionId}</span>
+            <span className="text-orange-500 font-bold">{transactionId}</span>
           </p>
         </div>
       )}
